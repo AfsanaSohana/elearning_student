@@ -26,10 +26,10 @@ const routes =  [
     component: () => import("./components/CourseInterface")
   },
   {
-    path: "/paymentForm",
-    alias: "/paymentForm",
-    name: "paymentForm",
-    component: () => import("./components/PaymentForm")
+    path: "/quizTest",
+    alias: "/quizTest",
+    name: "quizTest",
+    component: () => import("./components/QuizTest")
   }
 ];
 

@@ -68,7 +68,7 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                           Quiz 1 - Due: Nov 2
-                          <a href="/QuizTest" class="btn btn-success btn-sm">
+                          <a href="/quizTest" class="btn btn-success btn-sm">
                             Take Quiz
                           </a>
                         </li>
