@@ -12,6 +12,24 @@ const routes =  [
     alias: "/sohana",
     name: "sohana",
     component: () => import("./components/Home")
+  },
+  {
+    path: "/batchEnroll",
+    alias: "/batchEnroll",
+    name: "batchEnroll",
+    component: () => import("./components/BatchEnroll")
+  },
+  {
+    path: "/courseInterface",
+    alias: "/courseInterface",
+    name: "courseInterface",
+    component: () => import("./components/CourseInterface")
+  },
+  {
+    path: "/quizTest",
+    alias: "/quizTest",
+    name: "quizTest",
+    component: () => import("./components/QuizTest")
   }
 ];
 
