@@ -63,9 +63,9 @@
     </div>
 
     <!-- Button: Join Now -->
-    <!-- <button className='btn-primary' onClick={logout}>  Logout</button>  -->
-     {{ front_access_token }} {{ d }}
-     <router-link :to="'/batchEnroll/'" class="nav-item nav-link">Go to class </router-link> <a href="" className="btn btn-primary py-4 px-lg-5 d-none d-lg-block"> <i className="fa fa-arrow-right ms-3"></i>Join Now</a>
+    <button v-if="uid" className='btn-primary' @click="logout">  Logout</button> 
+    <router-link v-if="uid" :to="'/batchEnroll/'" class="nav-item nav-link">Go to class </router-link>
+    <a v-if="!uid" href="/login" className="btn btn-primary py-4 px-lg-5 d-none d-lg-block"> <i className="fa fa-arrow-right ms-3"></i>Join Now</a>
   </div>
 </nav>
 
@@ -77,11 +77,18 @@ export default {
   name: 'Header',
   data() {
     return {
-      front_access_token:localStorage.getItem('front_access_token'),d:"kkk"
+      uid:sessionStorage.getItem('uid')
     };
   },
   props: {
     msg: String
+  },
+  methods: {
+    logout() {
+      this.uid="";
+      sessionStorage.setItem('uid', '');
+      window.location.reload();
+    }
   }
 }
 </script>
