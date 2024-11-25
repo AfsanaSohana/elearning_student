@@ -8,10 +8,10 @@ const routes =  [
     component: () => import("./components/Home")
   },
   {
-    path: "/sohana",
-    alias: "/sohana",
-    name: "sohana",
-    component: () => import("./components/Home")
+    path: "/login",
+    alias: "/login",
+    name: "login",
+    component: () => import("./components/LoginForm")
   },
   {
     path: "/batchEnroll",
