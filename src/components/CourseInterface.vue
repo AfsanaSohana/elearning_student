@@ -58,7 +58,7 @@
                     <div class="card-body">
                       <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                          Assignment 1 - Due: {{ batch_data.assignmentName }}
+                          Assignment 1 - Due: {{ batch_data.assignment?.assignment_name }}
                           <form class="d-inline">
                             <input type="file" class="form-control d-inline w-50" id="assignment1" name="assignment1" />
                             <button type="submit" class="btn btn-primary btn-sm me-1">
