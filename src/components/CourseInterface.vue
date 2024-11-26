@@ -23,11 +23,11 @@
             <!-- Announcements -->
             <div class="card mb-3">
               <div class="card-header">
-                <h5>Announcements</h5>
+                <h5>Announcement</h5>
               </div>
-              <div class="card-body">
-                <p><strong>New Lecture Added:</strong> {{ lectureName }}</p>
-                <p><strong>Exam Date:</strong> The {{ examName }} exam will be held on {{ examDate }}.</p>
+              <div class="card-body text-dark">
+                <p><strong>New Lecture Added:</strong> {{ batch_data.l_sheet_name }}</p>
+                <p><strong>Exam Date:</strong> The {{ batch_data.exam?.exam_name }} exam will be held on {{ batch_data.exam?.date }}.</p>
               </div>
             </div>
   
@@ -41,8 +41,8 @@
                     </div>
                     <div class="card-body">
                       <ul class="list-group">
-                        <li class="list-group-item" v-for="(module, index) in modules" :key="index" @click="playVideo(module.videoId)">
-                          {{ module.name }}
+                        <li class="list-group-item" v-for="(module, index) in batch_data?.batch?.module" :key="index" @click="playVideo(module.video_id)">
+                          {{ module.module_name }}
                         </li>
                       </ul>
                     </div>
@@ -58,7 +58,7 @@
                     <div class="card-body">
                       <ul class="list-group">
                         <li class="list-group-item d-flex justify-content-between align-items-center">
-                          Assignment 1 - Due: {{ assignmentName }}
+                          Assignment 1 - Due: {{ batch_data.assignmentName }}
                           <form class="d-inline">
                             <input type="file" class="form-control d-inline w-50" id="assignment1" name="assignment1" />
                             <button type="submit" class="btn btn-primary btn-sm me-1">
@@ -93,7 +93,7 @@
                   <div class="card-header">
                     <h5>Course Video</h5>
                   </div>
-                  <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                  <div class="card-body">
                     <p>Watch the video below to learn more:</p>
                     <!-- YouTube Video Embed -->
                     <div v-if="currentVideoId">
@@ -116,7 +116,7 @@
             <div class="row">
               <div class="card">
                 <div class="card-header">
-                  <h5>Discussion Forum</h5>
+                  <h5>Discussion Forum </h5>
                 </div>
                 <div class="card-body">
                   <form>
@@ -139,10 +139,13 @@
   </template>
   
   <script>
+    import DataService from "../services/DataService";
+
   export default {
     name: "CourseInterface",
     data() {
       return {
+        batch_data:[],
         courseName: "Physics for Beginners",
         lectureName: "Introduction to Physics",
         examName: "Midterm",
@@ -154,14 +157,32 @@
           { name: "Module 2: Advanced Mechanics", videoId: "https://youtu.be/3VcmZ3anN1I?list=PLNMnAEqLBwmqKGMJOtVcvGE-QrAte_95q" },
           { name: "Module 3: Thermodynamics", videoId: "https://youtu.be/qhXFb15zoE0" },
         ],
-        currentVideoId: null,
+        currentVideoId: null
       };
     },
     methods: {
       playVideo(videoId) {
         this.currentVideoId = videoId;
       },
+      batcheDetails() {
+          let batch_id=this.$route.params.batch_id;
+          DataService.batcheDetail(batch_id)
+            .then(response => {
+              console.log(response.data.data)
+              if(response.data.data)
+                this.batch_data= response.data.data;
+              else
+                alert(response.data.error)
+              
+            })
+            .catch(e => {
+              console.log(e);
+          });
+        }
     },
+    mounted() {
+      this.batcheDetails();
+    }
   };
   </script>
   

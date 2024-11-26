@@ -4,9 +4,12 @@ class DataService {
   login(data) {
     return http.post("/student/login", data);
   }
-  // orders(uid) {
-  //   return http.get(`/orders/${uid}`);
-  // }
+  BatchEnroll(uid) {
+    return http.get(`/batchEnroll?student_id=${uid}`);
+  }
+  batcheDetail(bid) {
+    return http.get(`/course_details/${bid}`);
+  }
   // ordertrack(uid) {
   //   return http.get(`/ordertrack/${uid}`);
   // }

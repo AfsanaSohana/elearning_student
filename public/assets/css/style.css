@@ -455,8 +455,8 @@
 
 /* sschsc page */
 .box {
-    height: 200px;
-    width: 350px;
+    height: auto;
+    width: 95%;
     border: 1px solid #ccc;
     display: flex;
     justify-content: space-between;
@@ -548,9 +548,9 @@
     margin: 20px;
 }
 
-.card {
+/* .card {
     max-width: 10cm;
-}
+} */
 
 .left {
     flex: 1;

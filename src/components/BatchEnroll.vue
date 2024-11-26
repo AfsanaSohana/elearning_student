@@ -22,29 +22,16 @@
         <!-- First Row -->
         <div class="row">
           <!-- Static Card 1 -->
-          <div class="col-md-6 d-flex justify-content-center">
+          <div v-for="p in allbatch" :key="p.id" class="col-md-6 d-flex justify-content-center">
             <div class="box borderRedius-3">
               <div class="box-content">
-                <h5>HSC Batch 2025</h5>
+                <h5>{{p.batch?.batch_name}}</h5>
                 <p><i class="bi bi-star-fill icon"></i> 10 বিষয়</p>
                 <p>প্রতি সপ্তাহে 5 লাইভ ক্লাস</p>
-                <router-link :to="'/courseInterface/'" class="btn btn-outline-success">ক্লাসে প্রবেশ করুন</router-link>
+                <router-link :to="'/courseInterface/'+p.batch_id" class="btn btn-outline-success">ক্লাসে প্রবেশ করুন</router-link>
                 
               </div>
               <img src="/assets/img/hsc_25_ob_sqr.jpeg" alt="HSC Batch Image" />
-            </div>
-          </div>
-  
-          <!-- Static Card 2 -->
-          <div class="col-md-6 d-flex justify-content-center">
-            <div class="box borderRedius-3">
-              <div class="box-content">
-                <h5>SSC Batch 2024</h5>
-                <p><i class="bi bi-star-fill icon"></i> 8 বিষয়</p>
-                <p>প্রতি সপ্তাহে 4 লাইভ ক্লাস</p>
-                <router-link :to="'/courseInterface/'" class="btn btn-outline-success">ক্লাসে প্রবেশ করুন</router-link>
-              </div>
-              <img src="/assets/img/ssc_24_ob_sqr.jpeg" alt="SSC Batch Image" />
             </div>
           </div>
         </div>
@@ -53,9 +40,32 @@
   </template>
   
   <script>
-  export default {
-    name: "BatchEnroll",
-  };
-  </script>
-  
+    import DataService from "../services/DataService";
+    
+    export default {
+      name: 'BatchEnroll',
+      data() {
+        return {
+          allbatch:[]
+        };
+      },
+      methods: {
+        batches() {
+          let uid=sessionStorage.getItem('uid');
+          DataService.BatchEnroll(uid)
+            .then(response => {
+              if(response.data.data)
+                this.allbatch= response.data.data;
+              else
+                alert(response.data.error)
+            })
+            .catch(e => {
+              console.log(e);
+          });
+        }
+      }, mounted() {
+        this.batches();
+      }
+    }
+</script>
   

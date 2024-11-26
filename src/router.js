@@ -20,7 +20,7 @@ const routes =  [
     component: () => import("./components/BatchEnroll")
   },
   {
-    path: "/courseInterface",
+    path: "/courseInterface/:batch_id",
     alias: "/courseInterface",
     name: "courseInterface",
     component: () => import("./components/CourseInterface")
