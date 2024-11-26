@@ -25,39 +25,39 @@
   <script>
     import DataService from "../services/DataService";
     import router from '@/router';
-  export default {
-    name: "LoginForm",
-    data() {
-      return {
-        formData: {
-          contact_number: "",
-          password: "",
-        },
-      };
-    },
-    methods: {
-      login() {
-        var data = {
-          contact_number: this.formData.contact_number,
-          password: this.formData.password
+    export default {
+      name: "LoginForm",
+      data() {
+        return {
+          formData: {
+            contact_number: "",
+            password: "",
+          },
         };
-        DataService.login(data)
-        .then(response => {
-          console.log(response.data.data.token)
-          if(response.data.data.token)
-            sessionStorage.setItem('uid', response.data.data.token);
-          else
-            alert(response.data.error)
-            
-            router.push({ name: 'batchEnroll' });
-            window.location.href='/batchEnroll';
-        })
-        .catch(e => {
-          console.log(e);
-        });
-      }
-    },
-  };
+      },
+      methods: {
+        login() {
+          var data = {
+            contact_number: this.formData.contact_number,
+            password: this.formData.password
+          };
+          DataService.login(data)
+          .then(response => {
+            console.log(response.data.data.token)
+            if(response.data.data.token)
+              sessionStorage.setItem('uid', response.data.data.token);
+            else
+              alert(response.data.error)
+              
+              router.push({ name: 'batchEnroll' });
+              window.location.href='/batchEnroll';
+          })
+          .catch(e => {
+            console.log(e);
+          });
+        }
+      },
+    };
 </script>
   
  <style scoped>
