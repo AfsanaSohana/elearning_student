@@ -30,6 +30,18 @@ const routes =  [
     alias: "/quizTest",
     name: "quizTest",
     component: () => import("./components/QuizTest")
+  },
+  {
+    path: "/certificate",
+    alias: "/certificate",
+    name: "certificate",
+    component: () => import("./components/Certificate")
+  },
+  {
+    path: "/progressber",
+    alias: "/progressber",
+    name: "progressber",
+    component: () => import("./components/ProgressBer")
   }
 ];
 

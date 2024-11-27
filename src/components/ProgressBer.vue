@@ -1,0 +1,120 @@
+<template>
+    <div class="course-dashboard">
+      <div class="overlay"></div>
+      <div class="container">
+        <!-- Existing Content -->
+        <div class="wrapper">
+          <div class="row">
+            <!-- Other Content -->
+            <div class="col-lg-6 mb-2">
+              <div class="card mt-2 h-100">
+                <div class="card-header">
+                  <h5>Course Video</h5>
+                </div>
+                <div class="card-body">
+                  <p>Watch the video below to learn more:</p>
+                  <div v-if="currentVideoId">
+                    <!-- YouTube Video Embed -->
+                    <iframe
+                      id="youtube-player"
+                      :src="'https://www.youtube.com/embed/' + currentVideoId + '?enablejsapi=1'"
+                      width="100%"
+                      height="315"
+                      frameborder="0"
+                      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                    ></iframe>
+                    <!-- Progress Bar -->
+                    <div class="progress mt-3">
+                      <div
+                        class="progress-bar"
+                        role="progressbar"
+                        :style="{ width: videoProgress + '%' }"
+                        :aria-valuenow="videoProgress"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      >
+                        {{ videoProgress }}%
+                      </div>
+                    </div>
+                  </div>
+                  <p v-else>Select a module to watch the video</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+<script>
+export default {
+    name:"ProgressBer",
+  data() {
+    return {
+      currentVideoId: null,
+      player: null,
+      videoProgress: 0,
+    };
+  },
+  methods: {
+    playVideo(videoId) {
+      this.currentVideoId = videoId;
+      this.initYouTubePlayer();
+    },
+    initYouTubePlayer() {
+      if (window.YT) {
+        this.createPlayer();
+      } else {
+        const tag = document.createElement("script");
+        tag.src = "https://www.youtube.com/iframe_api";
+        const firstScriptTag = document.getElementsByTagName("script")[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        window.onYouTubeIframeAPIReady = this.createPlayer;
+      }
+    },
+    createPlayer() {
+      const _this = this;
+      this.player = new YT.Player("youtube-player", {
+        events: {
+          onStateChange: (event) => _this.onPlayerStateChange(event),
+          onReady: () => _this.startTrackingProgress(),
+        },
+      });
+    },
+    startTrackingProgress() {
+      if (this.player) {
+        setInterval(() => {
+          const currentTime = this.player.getCurrentTime();
+          const duration = this.player.getDuration();
+          if (duration > 0) {
+            this.videoProgress = Math.min(
+              Math.round((currentTime / duration) * 100),
+              100
+            );
+          }
+        }, 1000);
+      }
+    },
+    onPlayerStateChange(event) {
+      if (event.data === YT.PlayerState.ENDED) {
+        this.videoProgress = 100;
+      }
+    },
+  },
+};
+</script>
+<style scoped>
+.progress {
+  height: 20px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.progress-bar {
+  background-color: #007bff;
+  height: 100%;
+  transition: width 0.5s ease;
+}
+</style>
