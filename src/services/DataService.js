@@ -10,9 +10,12 @@ class DataService {
   batcheDetail(bid) {
     return http.get(`/course_details/${bid}`);
   }
-  // ordertrack(uid) {
-  //   return http.get(`/ordertrack/${uid}`);
-  // }
+  quiz(course_id) {
+    return http.get(`/quiz?course_id=${course_id}`);
+  }
+  quizResult(data) {
+    return http.post("/quizResult/create", data);
+  }
   // ordertrack_save(data) {
   //   return http.post("/ordertrack_save", data);
   // }

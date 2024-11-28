@@ -26,7 +26,7 @@ const routes =  [
     component: () => import("./components/CourseInterface")
   },
   {
-    path: "/quizTest",
+    path: "/quizTest/:course_id",
     alias: "/quizTest",
     name: "quizTest",
     component: () => import("./components/QuizTest")
@@ -37,12 +37,12 @@ const routes =  [
     name: "certificate",
     component: () => import("./components/Certificate")
   },
-  {
-    path: "/progressber",
-    alias: "/progressber",
-    name: "progressber",
-    component: () => import("./components/ProgressBer")
-  }
+  // {
+  //   path: "/progressber",
+  //   alias: "/progressber",
+  //   name: "progressber",
+  //   component: () => import("./components/ProgressBer")
+  // }
 ];
 
 const router = createRouter({

@@ -5,7 +5,7 @@
         <!-- Header -->
         <div class="row mb-4">
           <div class="col-12">
-            <h1 class="display-4 text-white">{{ courseName }}</h1>
+            <h1 class="display-4 text-white">{{ batch_data.course?.name }}</h1>
             <h4 class="lead text-white">
               আমাদের ক্লাসে স্বাগতম
               <span>
@@ -68,7 +68,7 @@
                         </li>
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                           Quiz 1 - Due: Nov 2
-                          <a href="/quizTest" class="btn btn-success btn-sm">
+                          <a :href='"/quizTest/"+batch_data.course?.id' class="btn btn-success btn-sm">
                             Take Quiz
                           </a>
                         </li>

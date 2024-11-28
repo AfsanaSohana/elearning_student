@@ -6,41 +6,73 @@
       </div>
       <div class="quiz-body">
         <!-- Single-choice Question -->
-        <div v-for="(question, index) in quizQuestions" :key="index" class="question">
-          <h3>Question {{ index + 1 }}: {{ question.text }}</h3>
-          <div v-if="question.type === 'single-choice'" class="options">
-            <div v-for="(option, optIndex) in question.options" :key="optIndex">
+        <div v-for="(q, index) in quizQuestions" :key="index" class="question">
+          <h3>Question {{ index + 1 }}: {{ q.question }}</h3>
+          <div v-if="q.question_type" class="options">
+            <div>
               <label>
                 <input
                   type="radio"
                   :name="'question-' + index"
-                  :value="option"
-                  v-model="userAnswers[index]"
+                  :value="q.option_1"
+                   @change="getAnswer(q,1)"
                 />
-                {{ option }}
+                {{ q.options_1 }}
+              </label>
+            </div>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  :name="'question-' + index"
+                  :value="q.option_2"
+                   @change="getAnswer(q,2)"
+                />
+                {{ q.options_2 }}
               </label>
             </div>
           </div>
-          <div v-else-if="question.type === 'true-false'" class="options">
-            <label>
-              <input
-                type="radio"
-                :name="'question-' + index"
-                value="True"
-                v-model="userAnswers[index]"
-              />
-              True
-            </label>
-            <label>
-              <input
-                type="radio"
-                :name="'question-' + index"
-                value="False"
-                v-model="userAnswers[index]"
-              />
-              False
-            </label>
+          <div v-else class="options">
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  :name="'question-' + index"
+                  :value="q.option_1"
+                   @change="getAnswer(q,1)"
+                />
+                {{ q.options_1 }}
+              </label>
+            </div>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  :name="'question-' + index"
+                  :value="q.option_2"
+                   @change="getAnswer(q,2)"
+                />
+                {{ q.options_2 }}
+              </label>
+            </div>
+            <div>
+              <label>
+                <input type="radio" :name="'question-' + index" :value="q.option_3" @change="getAnswer(q,3)"/>
+                {{ q.options_3 }}
+              </label>
+            </div>
+            <div>
+              <label>
+                <input
+                  type="radio"
+                  :name="'question-' + index"
+                  :value="q.option_4" @change="getAnswer(q,4)"
+                />
+                {{ q.options_4 }}
+              </label>
+            </div>
           </div>
+          
         </div>
       </div>
   
@@ -63,51 +95,73 @@
   </template>
   
   <script>
+    import DataService from "../services/DataService";
   export default {
     name: "QuizTest",
     data() {
       return {
         // List of quiz questions
-        quizQuestions: [
-          {
-            text: "What is the capital of France?",
-            type: "single-choice",
-            options: ["Berlin", "Madrid", "Paris", "Rome"],
-            correctAnswer: "Paris",
-          },
-          {
-            text: "5 + 7 = 12?",
-            type: "true-false",
-            correctAnswer: "True",
-          },
-          {
-            text: "Which planet is known as the Red Planet?",
-            type: "single-choice",
-            options: ["Earth", "Venus", "Mars", "Jupiter"],
-            correctAnswer: "Mars",
-          },
-          {
-            text: "The Earth is flat?",
-            type: "true-false",
-            correctAnswer: "False",
-          },
-        ],
-        userAnswers: {}, // Tracks user-selected answers
+        quizQuestions: [],
+        userAnswers: [], // Tracks user-selected answers
         showResults: false, // Toggles results display
         quizResults: [], // Stores the evaluation results
+        countResult: 0, // Stores the evaluation results
       };
     },
     methods: {
-      // Evaluate the quiz answers
+      quiz() {
+          let course_id=this.$route.params.course_id;
+          DataService.quiz(course_id)
+            .then(response => {
+              if(response.data.data){
+                this.quizQuestions= response.data.data;
+              }else
+                alert(response.data.error)
+              
+            })
+            .catch(e => {
+              console.log(e);
+          });
+        },
+      getAnswer(q,e){
+        if(q.correct_answer==e)
+        this.countResult+=1
+        this.userAnswers.push({ [q.id]: e });
+      },
+        // Evaluate the quiz answers
       submitQuiz() {
-        this.quizResults = this.quizQuestions.map((question, index) => {
+        
+        this.quizResults = this.quizQuestions.map((question) => {
+          // Find the answer corresponding to the current question's ID
+          const userAnswer = this.userAnswers.find(answer => 
+            Object.prototype.hasOwnProperty.call(answer, question.id)
+          );
+          // Check if the user's answer is correct
           return {
-            isCorrect: this.userAnswers[index] === question.correctAnswer,
+            isCorrect: userAnswer ? userAnswer[question.id] == question.correct_answer : false,
           };
         });
         this.showResults = true;
+
+        var data = {
+            student_id: sessionStorage.getItem('uid'),
+            countResult: this.countResult,
+            userAnswers:this.userAnswers,
+            course_id:this.$route.params.course_id
+          };
+        DataService.quizResult(data)
+            .then(response => {
+              console.log(response)
+            })
+            .catch(e => {
+              console.log(e);
+          });
+        console.log(this.quizResults)
       },
     },
+    mounted() {
+      this.quiz();
+    }
   };
   </script>
   
