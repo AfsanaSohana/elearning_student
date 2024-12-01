@@ -43,21 +43,21 @@ export default {
         };
       },
       methods: {
-        login() {
+        certificateApply() {
           var data = {
             student_id: this.formData.student_id,
             course_id: this.formData.course_id
           };
-          DataService.login(data)
+          DataService.certificateApply(data)
           .then(response => {
-            console.log(response.data.data.token)
-            if(response.data.data.token)
-              sessionStorage.setItem('uid', response.data.data.token);
+            console.log(response.data.data)
+            if(response.data.data)
+              sessionStorage.setItem('uid', response.data.data);
             else
               alert(response.data.error)
               
               router.push({ name: 'certificateApply' });
-              window.location.href='/batchEnroll';
+              window.location.href='/certificateApply';
           })
           .catch(e => {
             console.log(e);
