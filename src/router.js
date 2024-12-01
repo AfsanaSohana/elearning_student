@@ -37,6 +37,12 @@ const routes =  [
     name: "certificate",
     component: () => import("./components/Certificate")
   },
+  {
+    path: "/certificateApply",
+    alias: "/certificateApply",
+    name: "certificateApply",
+    component: () => import("./components/CertificateApply")
+  }
   // {
   //   path: "/progressber",
   //   alias: "/progressber",
