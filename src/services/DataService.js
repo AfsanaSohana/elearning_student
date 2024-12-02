@@ -17,8 +17,9 @@ class DataService {
     return http.post("/quizResult/create", data);
   }
   certificateApply(data) {
-    return http.post("/batchEnroll/certificateApply", data);
+    return http.get("/batchEnroll/certificateApply", data);
   }
+ 
   // ordertrack_save(data) {
   //   return http.post("/ordertrack_save", data);
   // }

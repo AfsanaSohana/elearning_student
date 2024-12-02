@@ -54,7 +54,7 @@
       <div className="nav-item dropdown">
             <a href="#" className="nav-link dropdown-toggle" data-bs-toggle="dropdown">সার্টিফিকেট</a>
                 <div className="dropdown-menu fade-down m-0">
-                    <a href="/src/components/CertificateApply.vue" className="dropdown-item">আবেদন করুন</a>
+                    <a href="/CertificateApply" className="dropdown-item">আবেদন করুন</a>
                 </div>
       </div>
 
