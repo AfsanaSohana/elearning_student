@@ -27,7 +27,7 @@
               </div>
               <div class="card-body text-dark">
                 <p><strong>New Lecture Added:</strong> {{ batch_data.l_sheet_name }}</p>
-                <p><strong>Exam Date:</strong> The {{ batch_data.exam?.exam_name }} exam will be held on {{ batch_data.exam?.date }}.</p>
+                <p><strong>Exam Date:</strong> {{ batch_data.exam?.exam_name }} অনুষ্ঠিত হবে {{ batch_data.exam?.date }} তারিখে.</p>
               </div>
             </div>
   
